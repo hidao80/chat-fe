@@ -1,6 +1,6 @@
 # Build stage
 FROM node:20-alpine AS builder
-RUN corepack enable && corepack prepare pnpm@10.22.0 --activate
+RUN corepack enable && corepack prepare pnpm@10.28.2 --activate
 WORKDIR /app
 COPY pnpm-lock.yaml package.json ./
 RUN pnpm install --frozen-lockfile
@@ -14,14 +14,14 @@ RUN printf 'server {\n\
     listen 80;\n\
     root /usr/share/nginx/html;\n\
     index index.html;\n\
-\n\
+    \n\
     location / {\n\
-        try_files $uri $uri/ /index.html;\n\
+    try_files $uri $uri/ /index.html;\n\
     }\n\
-\n\
+    \n\
     location /sw.js {\n\
-        add_header Cache-Control "no-cache";\n\
+    add_header Cache-Control "no-cache";\n\
     }\n\
-}\n' > /etc/nginx/conf.d/default.conf
+    }\n' > /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
