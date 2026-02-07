@@ -6,7 +6,7 @@ import { Chat, Settings } from "./components/ChatAndSettings";
 import type { ApiConfig } from "./components/ChatAndSettings";
 
 type StoredConfig = ApiConfig & {
-  systemPrompt?: string;
+  systemPrompts?: Record<string, string>;
   lang?: string;
   dark?: boolean;
 };
@@ -48,12 +48,31 @@ function App() {
   const [config, setConfig] = useState<ApiConfig>({
     endpoint: "https://api.openai.com",
     apiKey: "",
-    provider: "openai"
+    provider: "openai",
+    model: undefined,
+    reasoningEffort: "medium"
   });
   const [showSettings, setShowSettings] = useState(true);
-  const [systemPrompt, setSystemPrompt] = useState('');
+  const [systemPrompts, setSystemPrompts] = useState<Record<string, string>>({});
   const [dark, setDark] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+
+  // プロバイダ+モデルをキーとして生成
+  const getSystemPromptKey = (provider: string, model?: string) => {
+    return `${provider}-${model || 'default'}`;
+  };
+
+  // 現在のキーに対応するプロンプトを取得
+  const currentKey = getSystemPromptKey(config.provider, config.model);
+  const currentSystemPrompt = systemPrompts[currentKey] || '';
+
+  // プロンプトを更新する関数
+  const updateSystemPrompt = (prompt: string) => {
+    setSystemPrompts(prev => ({
+      ...prev,
+      [currentKey]: prompt
+    }));
+  };
 
   useLayoutEffect(() => {
     if (navRef.current) {
@@ -68,14 +87,14 @@ function App() {
   function toggleLang() {
     const next = i18n.language === 'ja' ? 'en' : 'ja';
     i18n.changeLanguage(next);
-    saveConfigToDB({ ...config, systemPrompt, lang: next, dark });
+    saveConfigToDB({ ...config, systemPrompts, lang: next, dark });
   }
 
   useEffect(() => {
     loadConfigFromDB((loaded) => {
-      const { systemPrompt: sp, lang, dark: d, ...apiConfig } = loaded;
+      const { systemPrompts: sps, lang, dark: d, ...apiConfig } = loaded;
       setConfig((prev) => ({ ...prev, ...apiConfig }));
-      if (sp !== undefined) setSystemPrompt(sp);
+      if (sps !== undefined) setSystemPrompts(sps);
       if (lang) i18n.changeLanguage(lang);
       if (d !== undefined) setDark(d);
     });
@@ -84,12 +103,12 @@ function App() {
   function toggleDark() {
     const next = !dark;
     setDark(next);
-    saveConfigToDB({ ...config, systemPrompt, lang: i18n.language, dark: next });
+    saveConfigToDB({ ...config, systemPrompts, lang: i18n.language, dark: next });
   }
 
   function handleToggle() {
     if (showSettings) {
-      saveConfigToDB({ ...config, systemPrompt, lang: i18n.language, dark });
+      saveConfigToDB({ ...config, systemPrompts, lang: i18n.language, dark });
     }
     setShowSettings((s) => !s);
   }
@@ -126,12 +145,12 @@ function App() {
       </nav>
       <main className="flex justify-center px-4 py-6 md:py-8">
         <div id="minimap-portal" className="fixed right-4 w-5" style={{ top: 'var(--nav-h)', height: 'calc(100dvh - var(--nav-h))' }} />
-        <div className="w-full max-w-2xl">
+        <div className={`w-full ${showSettings ? 'max-w-2xl' : 'max-w-6xl'} pr-8`}>
           <div className="bg-white/85 backdrop-blur-md rounded-2xl border border-white/40 shadow-xl overflow-hidden flex flex-col dark:bg-slate-900/85 dark:border-slate-800/40" style={{ minHeight: '70vh' }}>
             {showSettings ? (
-              <Settings config={config} setConfig={setConfig} systemPrompt={systemPrompt} setSystemPrompt={setSystemPrompt} />
+              <Settings config={config} setConfig={setConfig} systemPrompt={currentSystemPrompt} setSystemPrompt={updateSystemPrompt} />
             ) : (
-              <Chat config={config} systemPrompt={systemPrompt} />
+              <Chat config={config} systemPrompt={currentSystemPrompt} />
             )}
           </div>
         </div>

@@ -14,5 +14,21 @@
   "placeholder": "メッセージを入力...",
   "systemPrompt": "システムプロンプト",
   "systemPromptPlaceholder": "AIの動作や返答スタイルを指定...",
-  "scrollToLatest": "最新へ"
+  "scrollToLatest": "最新へ",
+  "model": "モデル",
+  "loadingModels": "モデルを読み込んでいます...",
+  "modelsError": "モデル取得エラー",
+  "noModels": "モデルが見つかりません",
+  "reasoningEffort": "推論の深さ",
+  "reasoningLow": "低",
+  "reasoningMedium": "中",
+  "reasoningHigh": "高",
+  "chatHistory": "チャット履歴",
+  "newChat": "新規チャット",
+  "noHistory": "履歴がありません",
+  "deleteConfirmTitle": "チャットを削除しますか？",
+  "deleteConfirmMessage": "この操作は取り消せません",
+  "delete": "削除",
+  "cancel": "キャンセル",
+  "copySystemPrompt": "システムプロンプトをコピー"
 }

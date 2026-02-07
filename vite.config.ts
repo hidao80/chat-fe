@@ -13,6 +13,15 @@ export default defineConfig({
       }
     }
   },
+  server: {
+    proxy: {
+      '/api/gpt4all': {
+        target: 'http://localhost:4891',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/gpt4all/, '')
+      }
+    }
+  },
   plugins: [
     react(),
     VitePWA({

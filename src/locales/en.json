@@ -14,5 +14,21 @@
   "placeholder": "Type a message...",
   "systemPrompt": "System Prompt",
   "systemPromptPlaceholder": "Define AI behavior and response style...",
-  "scrollToLatest": "Latest"
+  "scrollToLatest": "Latest",
+  "model": "Model",
+  "loadingModels": "Loading models...",
+  "modelsError": "Error loading models",
+  "noModels": "No models found",
+  "reasoningEffort": "Reasoning Effort",
+  "reasoningLow": "Low",
+  "reasoningMedium": "Medium",
+  "reasoningHigh": "High",
+  "chatHistory": "Chat History",
+  "newChat": "New Chat",
+  "noHistory": "No history",
+  "deleteConfirmTitle": "Delete chat?",
+  "deleteConfirmMessage": "This action cannot be undone",
+  "delete": "Delete",
+  "cancel": "Cancel",
+  "copySystemPrompt": "Copy System Prompt"
 }
