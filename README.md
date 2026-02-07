@@ -7,7 +7,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/c19cf671-7d97-4bec-a496-8d33f48b8e74/deploy-status)](https://app.netlify.com/projects/app-chat-fe/deploys)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/hidao80/chat-fe)
 
-![Accessibility](https://img.shields.io/badge/Accessibility-91-brightgreen?style=flat-square)&emsp;![Best_Practices](https://img.shields.io/badge/Best_Practices-100-brightgreen?style=flat-square)&emsp;![Performance](https://img.shields.io/badge/Performance-96-brightgreen?style=flat-square)&emsp;![SEO](https://img.shields.io/badge/SEO-90-brightgreen?style=flat-square)
+![Accessibility](https://img.shields.io/badge/Accessibility-91-brightgreen?style=flat-square)&emsp;![Best_Practices](https://img.shields.io/badge/Best_Practices-100-brightgreen?style=flat-square)&emsp;![Performance](https://img.shields.io/badge/Performance-98-brightgreen?style=flat-square)&emsp;![SEO](https://img.shields.io/badge/SEO-90-brightgreen?style=flat-square)
 
 > **Technical Limitation**: HTTPS deployments (Netlify, Vercel, etc.) cannot access local HTTP LLM providers due to mixed content restrictions. Use development mode (`pnpm dev`) or self-host on HTTP for local LLM access.
 
