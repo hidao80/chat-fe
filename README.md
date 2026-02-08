@@ -83,14 +83,23 @@ Local LLM providers lack easy-to-deploy, cross-platform GUIs. local-ai-chat-fron
 ### Run instantly (no install)
 
 ```bash
+# npm
 npx github:hidao80/local-ai-chat-frontend
+
+# pnpm
+pnpm dlx github:hidao80/local-ai-chat-frontend
 ```
 
 ### Custom port / LAN access
 
 ```bash
+# npm
 PORT=8080 npx github:hidao80/local-ai-chat-frontend
 HOST=0.0.0.0 PORT=3000 npx github:hidao80/local-ai-chat-frontend
+
+# pnpm
+PORT=8080 pnpm dlx github:hidao80/local-ai-chat-frontend
+HOST=0.0.0.0 PORT=3000 pnpm dlx github:hidao80/local-ai-chat-frontend
 ```
 
 ### Run with Docker
