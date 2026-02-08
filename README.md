@@ -85,7 +85,7 @@ Local LLM providers lack easy-to-deploy, cross-platform GUIs. local-ai-chat-fron
 npx github:hidao80/local-ai-chat-frontend
 
 # pnpm
-pnpm dlx github:hidao80/local-ai-chat-frontend
+pnpm dlx --force github:hidao80/local-ai-chat-frontend
 ```
 
 ### Custom port / LAN access
@@ -96,8 +96,8 @@ PORT=8080 npx github:hidao80/local-ai-chat-frontend
 HOST=0.0.0.0 PORT=3000 npx github:hidao80/local-ai-chat-frontend
 
 # pnpm
-PORT=8080 pnpm dlx github:hidao80/local-ai-chat-frontend
-HOST=0.0.0.0 PORT=3000 pnpm dlx github:hidao80/local-ai-chat-frontend
+PORT=8080 pnpm dlx --force github:hidao80/local-ai-chat-frontend
+HOST=0.0.0.0 PORT=3000 pnpm dlx --force github:hidao80/local-ai-chat-frontend
 ```
 
 ### Run with Docker
@@ -159,7 +159,7 @@ OLLAMA_ORIGINS=* ollama serve
 ### Build
 
 ```bash
-pnpm run build
+pnpm build
 ```
 
 ### Type Check
