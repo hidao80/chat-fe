@@ -11,7 +11,7 @@ i18n
       en: { translation: en },
     },
     lng: navigator.language.startsWith('ja') ? 'ja' : 'en',
-    fallbackLng: 'ja',
+    fallbackLng: 'en',
     interpolation: {
       escapeValue: false,
     },
