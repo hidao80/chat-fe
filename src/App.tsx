@@ -117,7 +117,7 @@ function App() {
     <div className="min-h-screen text-slate-50 via-blue-50 dark:bg-slate-950">
       <nav ref={navRef} className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-white/30 shadow-sm px-6 py-3 flex items-center justify-between dark:bg-slate-900/80 dark:border-slate-800">
         <span className="text-lg font-bold text-blue-600">
-          Chat-FE
+          llm Chat-FE
         </span>
         <div className="flex items-center gap-2">
           <button

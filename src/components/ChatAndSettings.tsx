@@ -518,6 +518,8 @@ type Message = {
     role: string;
     content: string;
     model?: string;
+    provider?: ApiConfig["provider"];
+    reasoningEffort?: string;
     tokensPerSecond?: number;
     timestamp?: number;
 };
@@ -740,18 +742,18 @@ export function Chat({ config, systemPrompt }: { config: ApiConfig; systemPrompt
                     stream: false,
                     ...(shouldUseReasoning && config.reasoningEffort ? { think: config.reasoningEffort } : {}),
                 };
-            } else if (config.provider === "openai") {
-                // OpenAIは"reasoning_effort"パラメータを使用（o1モデルなど）
+            } else if (config.provider === "gpt4all") {
+                // GPT4ALLはreasoningパラメータをサポートしていない
+                requestBody = {
+                    model: config.model || "gpt-3.5-turbo",
+                    messages: apiMessages,
+                };
+            } else {
+                // OpenAI / LM Studio は"reasoning_effort"パラメータを使用
                 requestBody = {
                     model: config.model || "gpt-3.5-turbo",
                     messages: apiMessages,
                     ...(shouldUseReasoning && config.reasoningEffort ? { reasoning_effort: config.reasoningEffort } : {}),
-                };
-            } else {
-                // GPT4ALL、LM Studioはreasoningパラメータをサポートしていない
-                requestBody = {
-                    model: config.model || "gpt-3.5-turbo",
-                    messages: apiMessages,
                 };
             }
 
@@ -799,6 +801,8 @@ export function Chat({ config, systemPrompt }: { config: ApiConfig; systemPrompt
                 role: "assistant",
                 content: aiMsg,
                 model: usedModel,
+                provider: config.provider,
+                reasoningEffort: shouldUseReasoning && config.reasoningEffort ? config.reasoningEffort : undefined,
                 tokensPerSecond,
                 timestamp: endTime
             }]);
@@ -808,6 +812,7 @@ export function Chat({ config, systemPrompt }: { config: ApiConfig; systemPrompt
                 role: "assistant",
                 content: t('error') + String(e),
                 model: usedModel,
+                provider: config.provider,
                 timestamp: Date.now()
             }]);
         }
@@ -852,12 +857,13 @@ export function Chat({ config, systemPrompt }: { config: ApiConfig; systemPrompt
                     const isUser = m.role === "user";
                     const isCopied = copiedMessageIndex === i;
                     // プロバイダー名の表示用マッピング
-                    const providerDisplayName = {
+                    const providerNames: Record<string, string> = {
                         openai: 'OpenAI',
                         lmstudio: 'LM Studio',
                         gpt4all: 'GPT4ALL',
                         ollama: 'Ollama'
-                    }[config.provider] || config.provider;
+                    };
+                    const msgProviderName = (m.provider ? providerNames[m.provider] : null) ?? providerNames[config.provider] ?? config.provider;
 
                     return (
                         <div key={i} ref={el => { messageRefs.current[i] = el; }} className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
@@ -879,7 +885,7 @@ export function Chat({ config, systemPrompt }: { config: ApiConfig; systemPrompt
                                 </button>
 
                                 <div className={`text-xs font-semibold mb-0.5 ${isUser ? 'text-blue-200' : 'text-slate-500 dark:text-slate-400'}`}>
-                                    {isUser ? t('you') : `${t('ai')}${m.model ? ` (${providerDisplayName}: ${m.model})` : ''}`}
+                                    {isUser ? t('you') : `${t('ai')}${m.model ? ` (${msgProviderName}: ${m.model}${m.reasoningEffort ? `/${m.reasoningEffort}` : ''})` : ''}`}
                                 </div>
                                 <div className="whitespace-pre-wrap break-words leading-relaxed">
                                     <span dangerouslySetInnerHTML={{ __html: marked.parse(m.content) as string }} />
