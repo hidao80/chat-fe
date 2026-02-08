@@ -129,7 +129,7 @@ The application supports multiple LLM providers with automatic model discovery:
 | **OpenAI** | `https://api.openai.com` | API Key required | Yes (`reasoning_effort`) | Official OpenAI API |
 | **Ollama** | `http://localhost:11434` | No auth | Yes (`think`) | Local models via Ollama |
 | **GPT4ALL** | `http://localhost:4891` | No auth | No | Local OpenAI-compatible endpoint |
-| **LM Studio** | `http://localhost:1234` | Optional | Yes (`reasoning_effort`) | Local OpenAI-compatible endpoint |
+| **LM Studio** | `http://localhost:12345` | Optional | Yes (`reasoning_effort`) | Local OpenAI-compatible endpoint |
 | **llama.cpp** | `http://localhost:8080` | No auth | Yes (`reasoning_effort`) | llama-server built-in HTTP server |
 
 ### Provider-Specific Features
