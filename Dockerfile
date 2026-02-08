@@ -18,10 +18,6 @@ RUN printf 'server {\n\
     location / {\n\
     try_files $uri $uri/ /index.html;\n\
     }\n\
-    \n\
-    location /sw.js {\n\
-    add_header Cache-Control "no-cache";\n\
-    }\n\
     }\n' > /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
