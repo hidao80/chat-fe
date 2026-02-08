@@ -6,7 +6,7 @@ import { marked } from "marked";
 export type ApiConfig = {
     endpoint: string;
     apiKey: string;
-    provider: "openai" | "lmstudio" | "gpt4all" | "ollama";
+    provider: "openai" | "lmstudio" | "gpt4all" | "ollama" | "llamacpp";
     model?: string;
     reasoningEffort?: "low" | "medium" | "high";
 };
@@ -168,7 +168,8 @@ export function Settings({ config, setConfig, systemPrompt, setSystemPrompt }: {
                                     openai: "https://api.openai.com",
                                     lmstudio: "http://localhost:1234",
                                     gpt4all: "http://localhost:4891",
-                                    ollama: "http://localhost:11434"
+                                    ollama: "http://localhost:11434",
+                                    llamacpp: "http://localhost:8080"
                                 };
                                 setConfig({
                                     ...config,
@@ -182,6 +183,7 @@ export function Settings({ config, setConfig, systemPrompt, setSystemPrompt }: {
                             <option value="lmstudio">LM Studio</option>
                             <option value="gpt4all">GPT4ALL</option>
                             <option value="ollama">Ollama</option>
+                            <option value="llamacpp">llama.cpp</option>
                         </select>
                     </div>
 
@@ -861,7 +863,8 @@ export function Chat({ config, systemPrompt }: { config: ApiConfig; systemPrompt
                         openai: 'OpenAI',
                         lmstudio: 'LM Studio',
                         gpt4all: 'GPT4ALL',
-                        ollama: 'Ollama'
+                        ollama: 'Ollama',
+                        llamacpp: 'llama.cpp'
                     };
                     const msgProviderName = (m.provider ? providerNames[m.provider] : null) ?? providerNames[config.provider] ?? config.provider;
 

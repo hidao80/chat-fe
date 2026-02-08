@@ -132,11 +132,13 @@ The application supports multiple LLM providers with automatic model discovery:
 | **Ollama** | `http://localhost:11434` | No auth | Yes (`think`) | Local models via Ollama |
 | **GPT4ALL** | `http://localhost:4891` | No auth | No | Local OpenAI-compatible endpoint |
 | **LM Studio** | `http://localhost:1234` | Optional | Yes (`reasoning_effort`) | Local OpenAI-compatible endpoint |
+| **llama.cpp** | `http://localhost:8080` | No auth | Yes (`reasoning_effort`) | llama-server built-in HTTP server |
 
 ### Provider-Specific Features
 
-- **OpenAI / LM Studio**: Supports `reasoning_effort` parameter (low/medium/high)
+- **OpenAI / LM Studio / llama.cpp**: Supports `reasoning_effort` parameter (low/medium/high)
 - **Ollama**: Supports `think` parameter for reasoning models like GPT-OSS and DeepSeek-R1
+- **llama.cpp**: CORS enabled by default — no proxy or special configuration needed
 
 ### CORS Configuration
 
