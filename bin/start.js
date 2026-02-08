@@ -10,7 +10,7 @@ const PORT = process.env.PORT || '3000';
 const HOST = process.env.HOST || 'localhost';
 
 console.log('');
-console.log('  local-ai-chat-frontent');
+console.log('  local-ai-chat-frontend');
 console.log('  ====================================');
 console.log(`  Server: http://${HOST}:${PORT}`);
 console.log('');
