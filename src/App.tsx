@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Chat, Settings } from "./components/ChatAndSettings";
@@ -16,10 +14,10 @@ const STORE_NAME = "config";
 
 function saveConfigToDB(config: StoredConfig) {
   const req = window.indexedDB.open(DB_NAME, 1);
-  req.onupgradeneeded = function () {
+  req.onupgradeneeded = () => {
     req.result.createObjectStore(STORE_NAME);
   };
-  req.onsuccess = function () {
+  req.onsuccess = () => {
     const db = req.result;
     const tx = db.transaction(STORE_NAME, "readwrite");
     tx.objectStore(STORE_NAME).put(config, "main");
@@ -29,14 +27,14 @@ function saveConfigToDB(config: StoredConfig) {
 
 function loadConfigFromDB(callback: (c: StoredConfig) => void) {
   const req = window.indexedDB.open(DB_NAME, 1);
-  req.onupgradeneeded = function () {
+  req.onupgradeneeded = () => {
     req.result.createObjectStore(STORE_NAME);
   };
-  req.onsuccess = function () {
+  req.onsuccess = () => {
     const db = req.result;
     const tx = db.transaction(STORE_NAME, "readonly");
     const getReq = tx.objectStore(STORE_NAME).get("main");
-    getReq.onsuccess = function () {
+    getReq.onsuccess = () => {
       if (getReq.result) callback(getReq.result);
       db.close();
     };
@@ -50,42 +48,47 @@ function App() {
     apiKey: "",
     provider: "openai",
     model: undefined,
-    reasoningEffort: "medium"
+    reasoningEffort: "medium",
   });
   const [showSettings, setShowSettings] = useState(true);
-  const [systemPrompts, setSystemPrompts] = useState<Record<string, string>>({});
+  const [systemPrompts, setSystemPrompts] = useState<Record<string, string>>(
+    {},
+  );
   const [dark, setDark] = useState(false);
   const navRef = useRef<HTMLElement>(null);
 
   // プロバイダ+モデルをキーとして生成
   const getSystemPromptKey = (provider: string, model?: string) => {
-    return `${provider}-${model || 'default'}`;
+    return `${provider}-${model || "default"}`;
   };
 
   // 現在のキーに対応するプロンプトを取得
   const currentKey = getSystemPromptKey(config.provider, config.model);
-  const currentSystemPrompt = systemPrompts[currentKey] || '';
+  const currentSystemPrompt = systemPrompts[currentKey] || "";
 
   // プロンプトを更新する関数
   const updateSystemPrompt = (prompt: string) => {
-    setSystemPrompts(prev => ({
+    setSystemPrompts((prev) => ({
       ...prev,
-      [currentKey]: prompt
+      [currentKey]: prompt,
     }));
   };
 
   useLayoutEffect(() => {
     if (navRef.current) {
-      document.documentElement.style.setProperty('--nav-h', navRef.current.offsetHeight + 'px');
+      document.documentElement.style.setProperty(
+        "--nav-h",
+        `${navRef.current.offsetHeight}px`,
+      );
     }
   }, []);
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', dark);
+    document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
   function toggleLang() {
-    const next = i18n.language === 'ja' ? 'en' : 'ja';
+    const next = i18n.language === "ja" ? "en" : "ja";
     i18n.changeLanguage(next);
     saveConfigToDB({ ...config, systemPrompts, lang: next, dark });
   }
@@ -103,7 +106,12 @@ function App() {
   function toggleDark() {
     const next = !dark;
     setDark(next);
-    saveConfigToDB({ ...config, systemPrompts, lang: i18n.language, dark: next });
+    saveConfigToDB({
+      ...config,
+      systemPrompts,
+      lang: i18n.language,
+      dark: next,
+    });
   }
 
   function handleToggle() {
@@ -115,40 +123,56 @@ function App() {
 
   return (
     <div className="min-h-screen text-slate-50 via-blue-50 dark:bg-slate-950">
-      <nav ref={navRef} className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-white/30 shadow-sm px-6 py-3 flex items-center justify-between dark:bg-slate-900/80 dark:border-slate-800">
-        <span className="text-lg font-bold text-blue-600">
-          llm Chat-FE
-        </span>
+      <nav
+        ref={navRef}
+        className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-white/30 shadow-sm px-6 py-3 flex items-center justify-between dark:bg-slate-900/80 dark:border-slate-800"
+      >
+        <span className="text-lg font-bold text-blue-600">llm Chat-FE</span>
         <div className="flex items-center gap-2">
           <button
             onClick={toggleLang}
             className="text-xs font-semibold px-2.5 py-1 rounded-full border border-slate-300 bg-white text-slate-600 hover:bg-slate-50 transition-colors dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
           >
-            {i18n.language === 'ja' ? 'EN' : 'JA'}
+            {i18n.language === "ja" ? "EN" : "JA"}
           </button>
           <button
             onClick={toggleDark}
             className="text-xs font-semibold px-2.5 py-1 rounded-full border border-slate-300 bg-white text-slate-600 hover:bg-slate-50 transition-colors dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
           >
-            {dark ? '☀' : '☽'}
+            {dark ? "☀" : "☽"}
           </button>
           <button
             onClick={handleToggle}
-            className={`text-sm font-medium px-4 py-1.5 rounded-full border transition-colors ${showSettings
-              ? 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700'
-              : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-600 dark:hover:bg-slate-700'
-              }`}
+            className={`text-sm font-medium px-4 py-1.5 rounded-full border transition-colors ${
+              showSettings
+                ? "bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
+                : "bg-white text-slate-600 border-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-600 dark:hover:bg-slate-700"
+            }`}
           >
-            {showSettings ? t('toChat') : `⚙ ${t('toSettings')}`}
+            {showSettings ? t("toChat") : `⚙ ${t("toSettings")}`}
           </button>
         </div>
       </nav>
       <main className="flex justify-center px-4 py-6 md:py-8">
-        <div id="minimap-portal" className="fixed right-4 w-5" style={{ top: 'var(--nav-h)', height: 'calc(100dvh - var(--nav-h))' }} />
-        <div className={`w-full ${showSettings ? 'max-w-2xl' : 'max-w-6xl'} pr-8`}>
-          <div className="bg-white/85 backdrop-blur-md rounded-2xl border border-white/40 shadow-xl overflow-hidden flex flex-col dark:bg-slate-900/85 dark:border-slate-800/40" style={{ minHeight: '70vh' }}>
+        <div
+          id="minimap-portal"
+          className="fixed right-4 w-5"
+          style={{ top: "var(--nav-h)", height: "calc(100dvh - var(--nav-h))" }}
+        />
+        <div
+          className={`w-full ${showSettings ? "max-w-2xl" : "max-w-6xl"} pr-8`}
+        >
+          <div
+            className="bg-white/85 backdrop-blur-md rounded-2xl border border-white/40 shadow-xl overflow-hidden flex flex-col dark:bg-slate-900/85 dark:border-slate-800/40"
+            style={{ minHeight: "70vh" }}
+          >
             {showSettings ? (
-              <Settings config={config} setConfig={setConfig} systemPrompt={currentSystemPrompt} setSystemPrompt={updateSystemPrompt} />
+              <Settings
+                config={config}
+                setConfig={setConfig}
+                systemPrompt={currentSystemPrompt}
+                setSystemPrompt={updateSystemPrompt}
+              />
             ) : (
               <Chat config={config} systemPrompt={currentSystemPrompt} />
             )}
