@@ -4,6 +4,7 @@
 ![Lint](https://github.com/hidao80/local-ai-chat-frontend/actions/workflows/lint.yml/badge.svg)
 ![Audit](https://github.com/hidao80/local-ai-chat-frontend/actions/workflows/audit.yml/badge.svg)
 ![Build](https://github.com/hidao80/local-ai-chat-frontend/actions/workflows/build.yml/badge.svg)
+[![Security: Takumi Guard](https://img.shields.io/badge/Security-Takumi%20Guard-blue)](https://github.com/hidao80/mago-vsx/actions/workflows/npm-scan.yml)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/hidao80/local-ai-chat-frontend)
 
 ![Claude](https://img.shields.io/badge/Claude-D97757?style=for-the-badge&logo=claude&logoColor=white)
@@ -186,3 +187,12 @@ src/
 ├── main.tsx                 # Entry point
 └── vite-env.d.ts            # Vite type declarations
 ```
+
+## :handshake: Contributing
+
+Contributions are welcome!  
+Please note that this project uses [Takumi Guard](https://github.com/flatt-security/setup-takumi-guard-npm) in CI workflows to scan dependencies for malware and ensure supply chain security. This scanning only applies to CI and does not affect your local development environment.
+
+## :page_facing_up: License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
